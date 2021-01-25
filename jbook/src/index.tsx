@@ -33,11 +33,26 @@ const App = () => {
         //     target: 'es2015', // what options we want to assume that it needs to transpire
         // });
 
+        // Let's solve process.env.NODE_ENV when bundling for the browser
+        // define property
+
+        // Versioning을 원하는 경우
+        // unpkg.com/react@16.0.0/cjs/react.development.js
         const result = await ref.current.build({
             entryPoints: ['index.js'],
             bundle: true,
             write: false,
-            plugins: [unpkgPathPlugin()]
+            plugins: [unpkgPathPlugin()],
+            // replace any instance of process.env.NODE_ENV, with a variable of production
+            // bundling 과정중 process.env.NODE_ENV를 만나면 "production"으로 변환
+            define: {
+                'process.env.NODE_ENV': '"production"',
+                global: 'window',
+            }
+            // The reason for that is, as we just saw on the defined documentation, yes,
+            // esbuild is going to try to find where there might be some potentially unreachable code
+            // and automatically print it out 
+            // process.env.NODE_ENV 주석처리해서 확인할 수 있다.
         });
 
         // console.log(result);
