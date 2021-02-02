@@ -1,7 +1,7 @@
 import * as esbuild from 'esbuild-wasm';
 import { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
-import { unpkgPathPlugin } from './plugins/unpkg-path-plugin';
+import { unpkgPathPlugin } from './bundler/plugins/unpkg-path-plugin';
 
 const App = () => {
     // Refers to any type of variable
