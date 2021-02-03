@@ -1,0 +1,21 @@
+.preview-wrapper {
+    position: relative;
+    height: 100%;
+    flex-grow: 1;
+}
+
+.preview-wrapper iframe {
+    height: 100%;
+    width: 100%;
+}
+
+/* dragging 하면 react-draggable-transparent 클래스를 추가해준다, 이 두 클래스가 모두 있는 경우만 적용 */
+.react-draggable-transparent-selection .preview-wrapper:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+}
