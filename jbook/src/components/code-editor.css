@@ -1,6 +1,7 @@
 .editor-wrapper {
   position: relative;
   height: 100%;
+  /* Let the editor take up 100% of the space that is available, but leave behind 10 pixels */
   width: calc(100% - 10px);
 }
 

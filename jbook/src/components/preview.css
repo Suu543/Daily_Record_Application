@@ -9,6 +9,7 @@
     width: 100%;
 }
 
+/* 확인해보면, ::after가 always shoing that after element - 이거를 Drag 할때만 보이게 할려고*/
 /* dragging 하면 react-draggable-transparent 클래스를 추가해준다, 이 두 클래스가 모두 있는 경우만 적용 */
 .react-draggable-transparent-selection .preview-wrapper:after {
     content: '';
