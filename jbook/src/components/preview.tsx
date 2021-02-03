@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 
 interface PreviewProps {
     code: string;
+    err: string;
 }
 
 const html = `
@@ -13,13 +14,22 @@ const html = `
         <body>
             <div id="root"></div>
             <script>
+                const handleError = (err) => {
+                    const root = document.querySelector('#root');
+                    root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + err + '</div';
+                }
+
+                window.addEventListener('error', (event) => {
+                    // This listener will be used for catching async and unhandled error
+                    event.preventDefault();
+                    handleError(event.error);
+                });
+
                 window.addEventListener('message', (event) => {
                     try {
                         eval(event.data);
                     } catch (err) {
-                        const root = document.querySelector('#root');
-                        root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + err + '</div';
-                        console.log(err);
+                        handleError(err);
                     }
                 }, false);
             </script>
@@ -27,17 +37,17 @@ const html = `
     </html>
 `
 
-const Preview: React.FC<PreviewProps> = ({ code }) => {
+const Preview: React.FC<PreviewProps> = ({ code, err }) => {
     const iframe = useRef<any>();
 
     useEffect(() => {
-
         iframe.current.srcdoc = html;
-
         setTimeout(() => {
             iframe.current.contentWindow.postMessage(code, '*');
         }, 50);
     }, [code]);
+
+    console.log('err', err);
 
     return (
         <div className="preview-wrapper">
@@ -47,6 +57,7 @@ const Preview: React.FC<PreviewProps> = ({ code }) => {
                 sandbox="allow-scripts"  
                 srcDoc={html} 
             />
+            { err && <div className="preview-error">{err}</div>}
         </div>
     );
 };
